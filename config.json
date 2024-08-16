@@ -1,0 +1,44 @@
+{
+  "network": {
+    "name": "MyQuorumNetwork",
+    "id": "10",  // Chain ID from genesis.json
+    "consensus": "istanbul",  // Consensus mechanism from genesis.json
+    "nodes": [
+      {
+        "name": "Node1",
+        "address": "127.0.0.1",  // Update with actual IP or DNS
+        "http_port": 8545,  // HTTP port for JSON-RPC
+        "p2p_port": 30303  // P2P port for inter-node communication
+      }
+    ]
+  },
+  "genesis": {
+    "allocations": [
+      {
+        "address": "0xab3a5ce0a2a6de00121cd8a9695dbe3820fa5b56",
+        "balance": "1000000000000000000000"
+      }
+    ],
+    "config": {
+      "chainId": 10,  // Chain ID from genesis.json
+      "homesteadBlock": 0,
+      "eip150Block": 0,
+      "eip155Block": 0,
+      "eip158Block": 0,
+      "byzantiumBlock": 0,
+      "constantinopleBlock": 0,
+      "petersburgBlock": 0,
+      "istanbulBlock": 0,
+      "berlinBlock": 0,
+      "londonBlock": 0,
+      "istanbul": {
+        "epoch": 30000,
+        "policy": 0
+      }
+    },
+    "difficulty": "0x1",  // Difficulty setting from genesis.json
+    "gasLimit": "0xE0000000",  // Gas limit from genesis.json
+    "extraData": "0x"  // Extra data from genesis.json
+  }
+}
+

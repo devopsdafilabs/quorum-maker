@@ -1,19 +1,39 @@
 #!/bin/bash
 
-#Menu system for launching appropriate scripts based on user choice
-source qm.variables
+# Print the current directory for debugging
+echo "Current directory: $(pwd)"
 
-#Fix to automatically export ports on Mac OS. 
+# Check if qm.variables exists and source it
+if [ -f /quorum-maker/qm.variables ]; then
+    echo "Sourcing qm.variables..."
+    source /quorum-maker/qm.variables
+else
+    echo "Error: qm.variables not found"
+    exit 1
+fi
+
+# Fix for automatically exporting ports on Mac OS
 os=$(uname)
 if [ "$os" = "Darwin" ]; then
-	touch .qm_export_ports
+    touch /quorum-maker/.qm_export_ports
 fi
 
-docker run -it --rm -v $(pwd)/$line:/${PWD##*/} -w /${PWD##*/} $dockerImage lib/menu.sh $@
+# Check if the variable 'line' is set
+if [ -z "$line" ]; then
+    echo "Error: Variable 'line' is not set."
+    exit 1
+fi
 
+# Run Docker container
+docker run -it --rm -v $(pwd)/$line:/$(basename $(pwd)) -w /$(basename $(pwd)) $dockerImage lib/menu.sh "$@"
+
+# Check if .nodename file exists and handle it
 if [ -f .nodename ]; then
-	nodename=$(cat .nodename)
-	rm -f .nodename
-	cd $nodename	
-	./start.sh	$@
+    nodename=$(cat .nodename)
+    rm -f .nodename
+    cd "$nodename"
+    ./start.sh "$@"
+else
+    echo ".nodename file not found."
 fi
+

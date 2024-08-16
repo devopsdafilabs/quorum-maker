@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  quorum-node:
+    image: quorumengineering/quorum-maker
+    container_name: quorum-node
+    ports:
+      - "8545:8545"  # RPC port
+      - "30303:30303" # P2P port
+    networks:
+      - quorum-net
+    volumes:
+      - ./config.json:/quorum-maker/config.json
+      - ./data:/quorum-maker/data
+      - ./setup.sh:/quorum-maker/setup.sh
+    environment:
+      - NODE_TYPE=participant
+    entrypoint: ["/bin/sh", "/quorum-maker/setup.sh"]
+
+networks:
+  quorum-net:
+    driver: bridge
+
